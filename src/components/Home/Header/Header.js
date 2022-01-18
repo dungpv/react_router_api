@@ -69,6 +69,26 @@ export default function Header() {
               Profile
             </NavLink>
           </li>
+          <li className="nav-item dropdown">
+            <a
+              className="nav-link dropdown-toggle"
+              href="#"
+              id="dropdownId"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Bài tập
+            </a>
+            <div className="dropdown-menu" aria-labelledby="dropdownId">
+              <NavLink className="dropdown-item" to="/todolistrfc">
+                Todolist RFC
+              </NavLink>
+              <NavLink className="dropdown-item" to="/todolistrcc">
+                Todolist RCC
+              </NavLink>
+            </div>
+          </li>
         </ul>
         <form className="form-inline my-2 my-lg-0">
           <input
