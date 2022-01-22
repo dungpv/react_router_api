@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import style from "./Todolist.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  GET_TASK_API,
+  GET_TASKLIST_API,
+  ADD_TASK_API,
+  DELETE_TASK_API,
+  CHECK_TASK_API,
+  REJECT_TASK_API,
+} from "../../redux/constants/ToDoListConst";
 
 export default function BaiTapToDoListSaga() {
   const dispatch = useDispatch();
+
+  const { taskList } = useSelector((state) => state.ToDoListReducer);
 
   let [state, setState] = useState({
     taskList: [],
@@ -39,17 +49,41 @@ export default function BaiTapToDoListSaga() {
     });
   };
 
-  const getTaskList = () => {};
+  const getTaskList = () => {
+    dispatch({
+      type: GET_TASKLIST_API,
+      data: "saga",
+    });
+  };
 
   const addTask = (e) => {
     e.preventDefault(); //Chặn sự kiện reload lại trang
+    dispatch({
+      type: ADD_TASK_API,
+      taskName: state.values.taskName,
+    });
   };
 
-  const checkTask = (taskName) => {};
+  const checkTask = (taskName) => {
+    dispatch({
+      type: CHECK_TASK_API,
+      taskName: taskName,
+    });
+  };
 
-  const rejectTask = (taskName) => {};
+  const rejectTask = (taskName) => {
+    dispatch({
+      type: REJECT_TASK_API,
+      taskName: taskName,
+    });
+  };
 
-  const delTask = (taskName) => {};
+  const delTask = (taskName) => {
+    dispatch({
+      type: DELETE_TASK_API,
+      taskName: taskName,
+    });
+  };
 
   useEffect(() => {
     getTaskList();
@@ -58,7 +92,7 @@ export default function BaiTapToDoListSaga() {
   }, []);
 
   const renderTaskToDo = () => {
-    return state.taskList
+    return taskList
       .filter((item) => !item.status)
       .map((item, index) => {
         return (
@@ -91,7 +125,7 @@ export default function BaiTapToDoListSaga() {
   };
 
   const renderTaskToDoDone = () => {
-    return state.taskList
+    return taskList
       .filter((item) => item.status)
       .map((item, index) => {
         return (
@@ -125,7 +159,7 @@ export default function BaiTapToDoListSaga() {
 
   return (
     <div className="card">
-      <button
+      {/* <button
         className="btn btn-success"
         onClick={() => {
           dispatch({
@@ -134,7 +168,7 @@ export default function BaiTapToDoListSaga() {
         }}
       >
         Dispatch action saga getTaskAPI
-      </button>
+      </button> */}
       <div className="card__header">
         <img src={require("./bg.png")} />
       </div>
