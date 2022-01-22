@@ -69,6 +69,16 @@ export default function Header() {
               Profile
             </NavLink>
           </li>
+          <li className="nav-item">
+            <NavLink
+              activeClassName="activeNavItem"
+              activeStyle={{ fontWeight: "bold" }}
+              className="nav-link"
+              to="/demohocmodal"
+            >
+              Demo HOC
+            </NavLink>
+          </li>
           <li className="nav-item dropdown">
             <a
               className="nav-link dropdown-toggle"

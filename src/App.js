@@ -2,9 +2,11 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import LoadingComponent from "./components/GlobalSetting/LoadingComponent/LoadingComponent";
 import Header from "./components/Home/Header/Header";
+import Modal from "./HOC/Modal/Modal";
 import About from "./pages/About/About";
 import BaiTapToDoListSaga from "./pages/BaiTapToDoListSaga/BaiTapToDoListSaga";
 import Contact from "./pages/Contact/Contact";
+import DemoHOCModal from "./pages/DemoHOCModal/DemoHOCModal";
 import Detail from "./pages/Detail/Detail";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
@@ -13,26 +15,44 @@ import Profile from "./pages/Profile/Profile";
 import Todolist from "./pages/Todolist/Todolist";
 import ToDoListRedux from "./pages/Todolist/ToDoListRedux";
 import TodolistRFC from "./pages/Todolist/TodolistRFC";
+import { HomeTemplate } from "./templates/HomeTemplate/HomeTemplate";
 
 function App() {
   return (
     <BrowserRouter>
-      <Header />
+      <Modal></Modal>
       <LoadingComponent></LoadingComponent>
       <Switch>
-        <Route exact path="/home" component={Home} />
-        <Route exact path="/contact" component={Contact} />
-        <Route exact path="/about" component={About} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/detail/:id" component={Detail} />
-        <Route exact path="/profile" component={Profile} />
-        <Route exact path="/todolistrfc" component={TodolistRFC} />
-        <Route exact path="/todolistrcc" component={Todolist} />
-        <Route exact path="/todolistredux" component={ToDoListRedux} />
-        <Route exact path="/todolistsaga" component={BaiTapToDoListSaga} />
+        {/* <Route
+          exact
+          path="/home"
+          render={(propsRoute) => {
+            return (
+              <div>
+                <Header />
+                <Home {...propsRoute} />
+              </div>
+            );
+          }}
+        /> */}
+        <HomeTemplate path="/home" exact Component={Home} />
 
-        <Route exact path="/" component={Home} />
-        <Route exact path="*" component={PageNotFound} />
+        <HomeTemplate exact path="/contact" component={Contact} />
+        <HomeTemplate exact path="/about" component={About} />
+        <HomeTemplate exact path="/login" component={Login} />
+        <HomeTemplate exact path="/detail/:id" component={Detail} />
+        <HomeTemplate exact path="/profile" component={Profile} />
+        <HomeTemplate exact path="/todolistrfc" component={TodolistRFC} />
+        <HomeTemplate exact path="/todolistrcc" component={Todolist} />
+        <HomeTemplate exact path="/todolistredux" component={ToDoListRedux} />
+        <HomeTemplate
+          exact
+          path="/todolistsaga"
+          component={BaiTapToDoListSaga}
+        />
+        <HomeTemplate exact path="/demohocmodal" component={DemoHOCModal} />
+        <HomeTemplate exact path="/" component={Home} />
+        <HomeTemplate exact path="*" component={PageNotFound} />
       </Switch>
     </BrowserRouter>
   );
