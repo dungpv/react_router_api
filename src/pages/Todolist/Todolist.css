@@ -1,4 +1,4 @@
-body {
+/* body {
   font-family: "Roboto", sans-serif;
   background-color: #fee9f0;
   font-size: 16px;
@@ -8,7 +8,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
+} */
 
 .card {
   margin: 50px auto;
