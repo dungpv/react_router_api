@@ -6,20 +6,30 @@ import {
   FacebookOutlined,
   TwitterOutlined,
 } from "@ant-design/icons";
+import { withFormik, Formik } from "formik";
+import * as Yup from "yup";
 
-export default function LoginCyberBugs(props) {
+function LoginCyberBugs(props) {
+  const { values, touched, errors, handleChange, handleBlur, handleSubmit } =
+    props;
+
   return (
-    <form className="container" style={{ height: window.innerHeight }}>
+    <form
+      onSubmit={handleSubmit}
+      className="container"
+      style={{ height: window.innerHeight }}
+    >
       <div
         className="d-flex flex-column justify-content-center align-items-center"
         style={{ height: window.innerHeight }}
       >
         <h3 className="text-center" style={{ fontWeight: 300, fontSize: 35 }}>
-          Login CyberBugs
+          {props.displayName}
         </h3>
 
         <div className="d-flex mt-3">
           <Input
+            onChange={handleChange}
             style={{ width: "100%", minWidth: 300 }}
             name="email"
             size="large"
@@ -27,18 +37,22 @@ export default function LoginCyberBugs(props) {
             prefix={<UserOutlined />}
           />
         </div>
+        <div className="text-danger">{errors.email}</div>
         <div className="d-flex mt-3">
           <Input
+            onChange={handleChange}
             style={{ width: "100%", minWidth: 300 }}
             type="password"
-            name="email"
+            name="password"
             size="large"
             placeholder="password"
             prefix={<LockOutlined />}
           />
         </div>
+        <div className="text-danger">{errors.password}</div>
 
         <Button
+          htmlType="submit"
           size="large"
           style={{
             minWidth: 300,
@@ -71,3 +85,23 @@ export default function LoginCyberBugs(props) {
     </form>
   );
 }
+
+const LoginCyberBugsFormik = withFormik({
+  mapPropsToValues: () => ({ email: "", password: "" }),
+
+  validationSchema: Yup.object().shape({
+    email: Yup.string()
+      .required("Email is required!")
+      .email("email is invalid!"),
+    password: Yup.string()
+      .min(6, "password must have min 6 characters")
+      .max(32, "password have max 32 characters"),
+  }),
+  handleSubmit: (values, { setSubmitting }) => {
+    console.log(values);
+  },
+
+  displayName: "Login CyberBugs",
+})(LoginCyberBugs);
+
+export default LoginCyberBugsFormik;
