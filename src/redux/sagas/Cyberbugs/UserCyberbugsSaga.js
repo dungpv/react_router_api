@@ -13,6 +13,7 @@ import { cyberbugsService } from "../../../services/CyberbugsService";
 import { USER_SIGNIN_API, USLOGIN } from "../../constants/Cyberbugs/Cyberbugs";
 import { DISPLAY_LOADING, HIDE_LOADING } from "../../constants/LoadingConst";
 import { TOKEN, USER_LOGIN } from "../../../util/constants/settingSystem";
+import { history } from "../../../util/history";
 
 //Quản lý các action saga
 function* signinSaga(action) {
@@ -20,7 +21,7 @@ function* signinSaga(action) {
   yield put({
     type: DISPLAY_LOADING,
   });
-  yield delay(500);
+  yield delay(1000);
 
   //Gọi api
   try {
@@ -37,7 +38,7 @@ function* signinSaga(action) {
       userLogin: data.content,
     });
 
-    let history = yield select((state) => state.HistoryReducer.history);
+    //let history = yield select((state) => state.HistoryReducer.history);
 
     history.push("/home");
   } catch (err) {

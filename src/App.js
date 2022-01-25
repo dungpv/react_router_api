@@ -24,11 +24,7 @@ function App() {
   const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log(history);
-    dispatch({
-      type: "ADD_HISTORY",
-      history: history,
-    });
+    dispatch({ type: "ADD_HISTORY", history: history });
   }, []);
 
   return (
