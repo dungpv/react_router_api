@@ -27,7 +27,7 @@ function LoginCyberBugs(props) {
         style={{ height: window.innerHeight }}
       >
         <h3 className="text-center" style={{ fontWeight: 300, fontSize: 35 }}>
-          {props.displayName}
+          LOGIN CYBERBUGS
         </h3>
 
         <div className="d-flex mt-3">
@@ -108,7 +108,10 @@ const LoginCyberBugsFormik = withFormik({
     //     password: values.password,
     //   },
     // };
+
+    setSubmitting(true);
     props.dispatch(signinCyberbugAction(email, password));
+
     //console.log(values);
   },
 

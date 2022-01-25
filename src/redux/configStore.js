@@ -5,6 +5,8 @@ import createMiddleWareSaga from "redux-saga";
 import { rootSaga } from "./sagas/rootSaga";
 import LoadingReducer from "./reducers/LoadingReducer";
 import ModalReducer from "./reducers/ModalReducer";
+import { HistoryReducer } from "./reducers/HistoryReducer";
+import { UserLoginCyberBugsReducer } from "./reducers/UserCyberBugsReducer";
 
 const middleWareSaga = createMiddleWareSaga();
 
@@ -13,6 +15,8 @@ const rootReducer = combineReducers({
   ToDoListReducer,
   LoadingReducer,
   ModalReducer,
+  HistoryReducer,
+  UserLoginCyberBugsReducer,
 });
 
 const store = createStore(

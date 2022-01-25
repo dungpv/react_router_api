@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
 import LoadingComponent from "./components/GlobalSetting/LoadingComponent/LoadingComponent";
 import Header from "./components/Home/Header/Header";
 import Modal from "./HOC/Modal/Modal";
@@ -18,10 +18,21 @@ import ToDoListRedux from "./pages/Todolist/ToDoListRedux";
 import TodolistRFC from "./pages/Todolist/TodolistRFC";
 import { HomeTemplate } from "./templates/HomeTemplate/HomeTemplate";
 import { UserLoginTemplate } from "./templates/HomeTemplate/UserLoginTemplate";
+import { useDispatch } from "react-redux";
 
 function App() {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    console.log(history);
+    dispatch({
+      type: "ADD_HISTORY",
+      history: history,
+    });
+  }, []);
+
   return (
-    <BrowserRouter>
+    <>
       <Modal></Modal>
       <LoadingComponent></LoadingComponent>
       <Switch>
@@ -56,7 +67,7 @@ function App() {
         <HomeTemplate exact path="/" Component={Home} />
         <HomeTemplate exact path="*" Component={PageNotFound} />
       </Switch>
-    </BrowserRouter>
+    </>
   );
 }
 

@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Route } from "react-router-dom";
 import { Button, Layout, Slider } from "antd";
 
 const { Header, Footer, Sider, Content } = Layout;
 
 export const UserLoginTemplate = (props) => {
+  const [{ width, height }, setSize] = useState({
+    width: Math.round(window.innerWidth),
+    height: Math.round(window.innerHeight),
+  });
+
+  useEffect(() => {
+    window.onresize = () => {
+      setSize({
+        width: Math.round(window.innerWidth),
+        height: Math.round(window.innerHeight),
+      });
+    };
+  }, []);
+
   let { Component, ...restRoute } = props;
 
   return (
@@ -15,14 +29,17 @@ export const UserLoginTemplate = (props) => {
           <>
             <Layout>
               <Sider
-                width={window.innerWidth / 2}
+                width={width / 2}
                 style={{
-                  height: window.innerHeight,
-                  backgroundImage: "url(https://picsum.photos/500)",
+                  height: height,
+                  backgroundImage: `url(https://picsum.photos/${Math.round(
+                    width / 2
+                  )}/${height})`,
+                  backgroundSize: "100%",
                 }}
               ></Sider>
               <Content>
-                <Component />
+                <Component {...propsRoute} />
               </Content>
             </Layout>
           </>

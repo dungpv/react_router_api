@@ -1,45 +1,54 @@
+import Axios from "axios";
 import {
   call,
   delay,
   fork,
-  put,
   take,
   takeEvery,
   takeLatest,
+  put,
+  select,
 } from "redux-saga/effects";
-import Axios from "axios";
-import { USER_SIGNIN_API } from "../../constants/Cyberbugs/Cyberbugs";
 import { cyberbugsService } from "../../../services/CyberbugsService";
-import {
-  STATUS_CODE,
-  TOKEN,
-  USER_LOGIN,
-} from "../../../util/constants/settingSystem";
+import { USER_SIGNIN_API, USLOGIN } from "../../constants/Cyberbugs/Cyberbugs";
 import { DISPLAY_LOADING, HIDE_LOADING } from "../../constants/LoadingConst";
+import { TOKEN, USER_LOGIN } from "../../../util/constants/settingSystem";
 
+//Quản lý các action saga
 function* signinSaga(action) {
-  yield delay(500);
+  // console.log(action);
   yield put({
     type: DISPLAY_LOADING,
   });
+  yield delay(500);
+
+  //Gọi api
   try {
-    let { data, status } = yield cyberbugsService.signinCyberBugs(
-      action.userLogin
+    const { data, status } = yield call(() =>
+      cyberbugsService.signinCyberBugs(action.userLogin)
     );
 
     //Lưu vào localstorage khi đăng nhập thành công
     localStorage.setItem(TOKEN, data.content.accessToken);
     localStorage.setItem(USER_LOGIN, JSON.stringify(data.content));
 
-    console.log(data);
+    yield put({
+      type: USLOGIN,
+      userLogin: data.content,
+    });
+
+    let history = yield select((state) => state.HistoryReducer.history);
+
+    history.push("/home");
   } catch (err) {
-    console.log(err.response.data);
+    console.log(err);
   }
+
   yield put({
     type: HIDE_LOADING,
   });
 }
 
-export function* theoDoiActionSignin() {
+export function* theoDoiSignin() {
   yield takeLatest(USER_SIGNIN_API, signinSaga);
 }

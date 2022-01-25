@@ -12,6 +12,6 @@ export function* rootSaga() {
     ToDoListSaga.theoDoiActionCheckDoneTaskApi(),
 
     // Cyberbugs Saga
-    Cyberbugs.theoDoiActionSignin(),
+    Cyberbugs.theoDoiSignin(),
   ]);
 }
