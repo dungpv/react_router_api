@@ -1,5 +1,6 @@
 import { all } from "redux-saga/effects";
 import * as ToDoListSaga from "./ToDoListSaga";
+import * as Cyberbugs from "./Cyberbugs/UserCyberbugsSaga";
 
 export function* rootSaga() {
   yield all([
@@ -9,5 +10,8 @@ export function* rootSaga() {
     ToDoListSaga.theoDoiActionDeleteTaskApi(),
     ToDoListSaga.theoDoiActionRejectTaskApi(),
     ToDoListSaga.theoDoiActionCheckDoneTaskApi(),
+
+    // Cyberbugs Saga
+    Cyberbugs.theoDoiActionSignin(),
   ]);
 }

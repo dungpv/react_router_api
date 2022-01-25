@@ -8,6 +8,9 @@ import {
 } from "@ant-design/icons";
 import { withFormik, Formik } from "formik";
 import * as Yup from "yup";
+import { connect } from "react-redux";
+import { USER_SIGNIN_API } from "../../../redux/constants/Cyberbugs/Cyberbugs";
+import { signinCyberbugAction } from "../../../redux/actions/CyberbugsAction";
 
 function LoginCyberBugs(props) {
   const { values, touched, errors, handleChange, handleBlur, handleSubmit } =
@@ -97,11 +100,19 @@ const LoginCyberBugsFormik = withFormik({
       .min(6, "password must have min 6 characters")
       .max(32, "password have max 32 characters"),
   }),
-  handleSubmit: (values, { setSubmitting }) => {
-    console.log(values);
+  handleSubmit: ({ email, password }, { props, setSubmitting }) => {
+    // let action = {
+    //   type: USER_SIGNIN_API,
+    //   userLogin: {
+    //     email: values.email,
+    //     password: values.password,
+    //   },
+    // };
+    props.dispatch(signinCyberbugAction(email, password));
+    //console.log(values);
   },
 
   displayName: "Login CyberBugs",
 })(LoginCyberBugs);
 
-export default LoginCyberBugsFormik;
+export default connect()(LoginCyberBugsFormik);
