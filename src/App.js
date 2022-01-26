@@ -19,6 +19,9 @@ import TodolistRFC from "./pages/Todolist/TodolistRFC";
 import { HomeTemplate } from "./templates/HomeTemplate/HomeTemplate";
 import { UserLoginTemplate } from "./templates/HomeTemplate/UserLoginTemplate";
 import { useDispatch } from "react-redux";
+import { CyberbugsTemplate } from "./templates/HomeTemplate/CyberbugsTemplate";
+import indexCyberBugs from "./redux/sagas/Cyberbugs/indexCyberBugs";
+import CreateProject from "./pages/CyberBugs/CreateProject/CreateProject";
 
 function App() {
   const history = useHistory();
@@ -29,7 +32,7 @@ function App() {
 
   return (
     <>
-      <Modal></Modal>
+      {/* <Modal></Modal> */}
       <LoadingComponent></LoadingComponent>
       <Switch>
         {/* <Route
@@ -60,6 +63,16 @@ function App() {
           Component={BaiTapToDoListSaga}
         />
         <HomeTemplate exact path="/demohocmodal" Component={DemoHOCModal} />
+        <CyberbugsTemplate
+          exact
+          path="/cyberbugs"
+          Component={indexCyberBugs}
+        ></CyberbugsTemplate>
+        <CyberbugsTemplate
+          exact
+          path="/createproject"
+          Component={CreateProject}
+        ></CyberbugsTemplate>
         <HomeTemplate exact path="/" Component={Home} />
         <HomeTemplate exact path="*" Component={PageNotFound} />
       </Switch>
