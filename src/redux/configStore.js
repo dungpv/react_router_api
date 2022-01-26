@@ -7,6 +7,7 @@ import LoadingReducer from "./reducers/LoadingReducer";
 import ModalReducer from "./reducers/ModalReducer";
 import { HistoryReducer } from "./reducers/HistoryReducer";
 import { UserLoginCyberBugsReducer } from "./reducers/UserCyberBugsReducer";
+import { ProjectCategoryReducer } from "./reducers/ProjectCategoryReducer";
 
 const middleWareSaga = createMiddleWareSaga();
 
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   ModalReducer,
   HistoryReducer,
   UserLoginCyberBugsReducer,
+  ProjectCategoryReducer,
 });
 
 const store = createStore(

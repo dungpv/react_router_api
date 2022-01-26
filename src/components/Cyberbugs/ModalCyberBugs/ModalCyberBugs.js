@@ -199,7 +199,9 @@ export default function ModalCyberBugs() {
                     <div className="status">
                       <h6>STATUS</h6>
                       <select className="custom-select">
-                        <option selected>SELECTED FOR DEVELOPMENT</option>
+                        <option value="" selected>
+                          SELECTED FOR DEVELOPMENT
+                        </option>
                         <option value={1}>One</option>
                         <option value={2}>Two</option>
                         <option value={3}>Three</option>
@@ -258,10 +260,10 @@ export default function ModalCyberBugs() {
                     <div className="priority" style={{ marginBottom: 20 }}>
                       <h6>PRIORITY</h6>
                       <select>
-                        <option>Highest</option>
-                        <option>Medium</option>
-                        <option>Low</option>
-                        <option>Lowest</option>
+                        <option value={1}>Highest</option>
+                        <option value={2}>Medium</option>
+                        <option value={3}>Low</option>
+                        <option value={4}>Lowest</option>
                       </select>
                     </div>
                     <div className="estimate">
