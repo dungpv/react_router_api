@@ -22,6 +22,7 @@ import { useDispatch } from "react-redux";
 import { CyberbugsTemplate } from "./templates/HomeTemplate/CyberbugsTemplate";
 import indexCyberBugs from "./redux/sagas/Cyberbugs/indexCyberBugs";
 import CreateProject from "./pages/CyberBugs/CreateProject/CreateProject";
+import ProjectManagement from "./pages/CyberBugs/ProjectManagement/ProjectManagement";
 
 function App() {
   const history = useHistory();
@@ -72,6 +73,11 @@ function App() {
           exact
           path="/createproject"
           Component={CreateProject}
+        ></CyberbugsTemplate>
+        <CyberbugsTemplate
+          exact
+          path="/projectmanagement"
+          Component={ProjectManagement}
         ></CyberbugsTemplate>
         <HomeTemplate exact path="/" Component={Home} />
         <HomeTemplate exact path="*" Component={PageNotFound} />

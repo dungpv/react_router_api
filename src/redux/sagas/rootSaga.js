@@ -17,5 +17,6 @@ export function* rootSaga() {
     Cyberbugs.theoDoiSignin(),
     ProjectCategory.theoDoiAllProjectCategory(),
     ProjectSaga.theoDoiCreateProjectSaga(),
+    ProjectSaga.theoDoiGetListProjectSaga(),
   ]);
 }
