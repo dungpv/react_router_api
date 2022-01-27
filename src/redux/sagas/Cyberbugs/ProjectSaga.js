@@ -3,9 +3,11 @@ import { cyberbugsService } from "../../../services/CyberbugsService";
 import { STATUS_CODE } from "../../../util/constants/settingSystem";
 import { history } from "../../../util/history";
 import {
+  CLOSE_DRAWER,
   CREATE_PROJECT_SAGA,
   GET_LIST_PROJECT,
   GET_LIST_PROJECT_SAGA,
+  UPDATE_PROJECT_SAGA,
 } from "../../constants/Cyberbugs/Cyberbugs";
 import { DISPLAY_LOADING, HIDE_LOADING } from "../../constants/LoadingConst";
 
@@ -44,7 +46,7 @@ function* getListProjectSaga(action) {
     );
 
     if (status === STATUS_CODE.SUCCESS) {
-      console.log(data);
+      //console.log(data);
       yield put({
         type: GET_LIST_PROJECT,
         projectList: data.content,
@@ -57,4 +59,34 @@ function* getListProjectSaga(action) {
 
 export function* theoDoiGetListProjectSaga() {
   yield takeLatest(GET_LIST_PROJECT_SAGA, getListProjectSaga);
+}
+
+function* updateProjectSaga(action) {
+  yield put({
+    type: DISPLAY_LOADING,
+  });
+  yield delay(1000);
+
+  try {
+    const { data, status } = yield call(() =>
+      cyberbugsService.updateProject(action.projectUpdate)
+    );
+
+    if (status === STATUS_CODE.SUCCESS) {
+      //console.log(data);
+      //history.push("/projectmanagement");
+    }
+    yield put({ type: GET_LIST_PROJECT_SAGA });
+    yield put({ type: CLOSE_DRAWER });
+  } catch (err) {
+    console.log(err.response.data);
+  }
+
+  yield put({
+    type: HIDE_LOADING,
+  });
+}
+
+export function* theoDoiUpdateProjectSaga() {
+  yield takeLatest(UPDATE_PROJECT_SAGA, updateProjectSaga);
 }

@@ -18,5 +18,6 @@ export function* rootSaga() {
     ProjectCategory.theoDoiAllProjectCategory(),
     ProjectSaga.theoDoiCreateProjectSaga(),
     ProjectSaga.theoDoiGetListProjectSaga(),
+    ProjectSaga.theoDoiUpdateProjectSaga(),
   ]);
 }

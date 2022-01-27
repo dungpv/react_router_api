@@ -1,17 +1,8 @@
 import React, { useState } from "react";
 import { Layout, Menu } from "antd";
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  BarsOutlined,
-  SearchOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { BarsOutlined, SearchOutlined, PlusOutlined } from "@ant-design/icons";
 
-const { Header, Sider, Content } = Layout;
+const { Sider } = Layout;
 
 export default function SidebarCyberbugs() {
   const [state, setState] = useState({

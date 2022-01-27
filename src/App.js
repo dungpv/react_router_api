@@ -23,6 +23,7 @@ import { CyberbugsTemplate } from "./templates/HomeTemplate/CyberbugsTemplate";
 import indexCyberBugs from "./redux/sagas/Cyberbugs/indexCyberBugs";
 import CreateProject from "./pages/CyberBugs/CreateProject/CreateProject";
 import ProjectManagement from "./pages/CyberBugs/ProjectManagement/ProjectManagement";
+import DrawerCyberbugs from "./HOC/CyberbugsHOC/DrawerCyberbugs";
 
 function App() {
   const history = useHistory();
@@ -34,6 +35,7 @@ function App() {
   return (
     <>
       {/* <Modal></Modal> */}
+      <DrawerCyberbugs></DrawerCyberbugs>
       <LoadingComponent></LoadingComponent>
       <Switch>
         {/* <Route
@@ -79,6 +81,7 @@ function App() {
           path="/projectmanagement"
           Component={ProjectManagement}
         ></CyberbugsTemplate>
+
         <HomeTemplate exact path="/" Component={Home} />
         <HomeTemplate exact path="*" Component={PageNotFound} />
       </Switch>

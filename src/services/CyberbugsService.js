@@ -37,4 +37,12 @@ export const cyberbugsService = {
       headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN) }, // JWT
     });
   },
+  updateProject: (projectUpdate) => {
+    return Axios({
+      url: `${DOMAIN_CYBERBUG}/Project/updateProject?projectId=${projectUpdate.id}`,
+      method: "PUT",
+      data: projectUpdate,
+      headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN) }, // JWT
+    });
+  },
 };
