@@ -15,6 +15,7 @@ import {
   GET_LIST_PROJECT_SAGA,
   GET_USER_API,
   GET_USER_SEARCH,
+  REMOVE_USER_PROJECT_API,
   USER_SIGNIN_API,
   USLOGIN,
 } from "../../constants/Cyberbugs/Cyberbugs";
@@ -83,13 +84,11 @@ export function* theoDoiGetUser() {
 
 //Quản lý các action saga
 function* addUserProjectSaga(action) {
-  console.log(action);
   yield put({
     type: DISPLAY_LOADING,
   });
-  yield delay(1000);
+  yield delay(500);
 
-  //Gọi api
   try {
     const { data, status } = yield call(() =>
       userService.assignUserProject(action.userProject)
@@ -99,9 +98,8 @@ function* addUserProjectSaga(action) {
       type: GET_LIST_PROJECT_SAGA,
     });
   } catch (err) {
-    console.log(err);
+    console.log(err.response.data);
   }
-
   yield put({
     type: HIDE_LOADING,
   });
@@ -109,4 +107,29 @@ function* addUserProjectSaga(action) {
 
 export function* theoDoiAddUserProject() {
   yield takeLatest(ADD_USER_PROJECT_API, addUserProjectSaga);
+}
+
+function* removeUserProjectSaga(action) {
+  yield put({
+    type: DISPLAY_LOADING,
+  });
+  yield delay(500);
+  try {
+    const { data, status } = yield call(() =>
+      userService.deleteUserFromProject(action.userProject)
+    );
+
+    yield put({
+      type: GET_LIST_PROJECT_SAGA,
+    });
+  } catch (err) {
+    console.log(err.response.data);
+  }
+  yield put({
+    type: HIDE_LOADING,
+  });
+}
+
+export function* theoDoiRemoveUserProject() {
+  yield takeLatest(REMOVE_USER_PROJECT_API, removeUserProjectSaga);
 }

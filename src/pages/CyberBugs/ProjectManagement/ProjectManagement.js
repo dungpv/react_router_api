@@ -1,5 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { Table, Button, Space, Tag, Avatar, Popover, AutoComplete } from "antd";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  Table,
+  Button,
+  Space,
+  Tag,
+  Avatar,
+  Popover,
+  AutoComplete,
+  Popconfirm,
+} from "antd";
 import ReactHtmlParser from "react-html-parser";
 import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,9 +20,9 @@ import {
   GET_USER_API,
   OPEN_DRAWER,
   OPEN_FORM_EDIT_PROJECT,
+  REMOVE_USER_PROJECT_API,
 } from "../../../redux/constants/Cyberbugs/Cyberbugs";
 import FormEditProject from "../../../components/Forms/FormEditProject/FormEditProject";
-import { Popconfirm, message } from "antd";
 
 export default function ProjectManagement(props) {
   const projectList = useSelector(
@@ -25,6 +34,8 @@ export default function ProjectManagement(props) {
   );
   const [state, setState] = useState({ filteredInfo: null, sortedInfo: null });
   const [value, setValue] = useState("");
+
+  const searchRef = useRef(null);
 
   useEffect(() => {
     dispatch({
@@ -123,7 +134,64 @@ export default function ProjectManagement(props) {
         return (
           <div>
             {record.members?.slice(0, 3).map((member, index) => {
-              return <Avatar key={index} src={member.avatar}></Avatar>;
+              return (
+                <Popover
+                  key={index}
+                  placement="top"
+                  title={"Members"}
+                  content={() => {
+                    return (
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th>Id</th>
+                            <th>avatar</th>
+                            <th>name</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {record.members?.map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td>{item.userId}</td>
+                                <td>
+                                  <img
+                                    src={item.avatar}
+                                    width="30"
+                                    height="30"
+                                    style={{ borderRadius: "15px" }}
+                                  />
+                                </td>
+                                <td>{item.name}</td>
+                                <td>
+                                  <button
+                                    onClick={() => {
+                                      dispatch({
+                                        type: REMOVE_USER_PROJECT_API,
+                                        userProject: {
+                                          userId: item.userId,
+                                          projectId: record.id,
+                                        },
+                                      });
+                                    }}
+                                    className="btn btn-danger"
+                                    style={{ borderRadius: "50%" }}
+                                  >
+                                    X
+                                  </button>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    );
+                  }}
+                >
+                  <Avatar key={index} src={member.avatar}></Avatar>
+                </Popover>
+              );
             })}
             {record.members?.length > 3 ? <Avatar>..</Avatar> : ""}
             <Popover
@@ -148,19 +216,22 @@ export default function ProjectManagement(props) {
 
                       dispatch({
                         type: ADD_USER_PROJECT_API,
-                        userProject: [
-                          {
-                            projectId: record.id,
-                            userId: valueSelect,
-                          },
-                        ],
+                        userProject: {
+                          projectId: record.id,
+                          userId: valueSelect,
+                        },
                       });
                     }}
                     onSearch={(value) => {
-                      dispatch({
-                        type: GET_USER_API,
-                        keyWord: value,
-                      });
+                      if (searchRef.current) {
+                        clearTimeout(searchRef.current);
+                      }
+                      searchRef.current = setTimeout(() => {
+                        dispatch({
+                          type: GET_USER_API,
+                          keyWord: value,
+                        });
+                      }, 300);
                     }}
                   />
                 );
