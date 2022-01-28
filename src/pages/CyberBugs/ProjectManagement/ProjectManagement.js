@@ -1,23 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Space, Tag } from "antd";
+import { Table, Button, Space, Tag, Avatar, Popover, AutoComplete } from "antd";
 import ReactHtmlParser from "react-html-parser";
 import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  ADD_USER_PROJECT_API,
+  DELETE_PROJECT_SAGA,
   EDIT_PROJECT,
   GET_LIST_PROJECT_SAGA,
+  GET_USER_API,
   OPEN_DRAWER,
   OPEN_FORM_EDIT_PROJECT,
 } from "../../../redux/constants/Cyberbugs/Cyberbugs";
 import FormEditProject from "../../../components/Forms/FormEditProject/FormEditProject";
+import { Popconfirm, message } from "antd";
 
 export default function ProjectManagement(props) {
   const projectList = useSelector(
     (state) => state.ProjectCyberBugsReducer.projectList
   );
   const dispatch = useDispatch();
-
+  const { userSearch } = useSelector(
+    (state) => state.UserLoginCyberBugsReducer
+  );
   const [state, setState] = useState({ filteredInfo: null, sortedInfo: null });
+  const [value, setValue] = useState("");
 
   useEffect(() => {
     dispatch({
@@ -108,6 +115,72 @@ export default function ProjectManagement(props) {
         return 1;
       },
     },
+    {
+      title: "members",
+      // dataIndex: 'creator',
+      key: "members",
+      render: (text, record, index) => {
+        return (
+          <div>
+            {record.members?.slice(0, 3).map((member, index) => {
+              return <Avatar key={index} src={member.avatar}></Avatar>;
+            })}
+            {record.members?.length > 3 ? <Avatar>..</Avatar> : ""}
+            <Popover
+              placement="rightTop"
+              title={"Add user"}
+              content={() => {
+                return (
+                  <AutoComplete
+                    style={{ width: "100%" }}
+                    options={userSearch?.map((user, index) => {
+                      return {
+                        label: user.name,
+                        value: user.userId.toString(),
+                      };
+                    })}
+                    value={value}
+                    onChange={(text) => {
+                      setValue(text);
+                    }}
+                    onSelect={(valueSelect, option) => {
+                      setValue(option.label);
+
+                      dispatch({
+                        type: ADD_USER_PROJECT_API,
+                        userProject: [
+                          {
+                            projectId: record.id,
+                            userId: valueSelect,
+                          },
+                        ],
+                      });
+                    }}
+                    onSearch={(value) => {
+                      dispatch({
+                        type: GET_USER_API,
+                        keyWord: value,
+                      });
+                    }}
+                  />
+                );
+              }}
+              trigger="click"
+            >
+              <Button style={{ borderRadius: "50%" }}>+</Button>
+            </Popover>
+          </div>
+        );
+      },
+      sorter: (item2, item1) => {
+        let creator1 = item1.creator?.name.trim().toLowerCase();
+        let creator2 = item2.creator?.name.trim().toLowerCase();
+        if (creator2 < creator1) {
+          return -1;
+        }
+        return 1;
+      },
+    },
     // {
     //   title: "Description",
     //   dataIndex: "description",
@@ -145,9 +218,21 @@ export default function ProjectManagement(props) {
             >
               <FormOutlined style={{ fontSize: 17 }} />
             </button>
-            <button className="btn btn-danger">
-              <DeleteOutlined style={{ fontSize: 17 }} />
-            </button>
+            <Popconfirm
+              title="Are you sure to delete this project?"
+              onConfirm={() => {
+                dispatch({
+                  type: DELETE_PROJECT_SAGA,
+                  idProject: record.id,
+                });
+              }}
+              okText="Yes"
+              cancelText="No"
+            >
+              <button className="btn btn-danger">
+                <DeleteOutlined style={{ fontSize: 17 }} />
+              </button>
+            </Popconfirm>
           </div>
         );
       },
