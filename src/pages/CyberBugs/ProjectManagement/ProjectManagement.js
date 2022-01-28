@@ -165,8 +165,9 @@ export default function ProjectManagement(props) {
                                 </td>
                                 <td>{item.name}</td>
                                 <td>
-                                  <button
-                                    onClick={() => {
+                                  <Popconfirm
+                                    title="Are you sure to delete member from this project?"
+                                    onConfirm={() => {
                                       dispatch({
                                         type: REMOVE_USER_PROJECT_API,
                                         userProject: {
@@ -175,11 +176,16 @@ export default function ProjectManagement(props) {
                                         },
                                       });
                                     }}
-                                    className="btn btn-danger"
-                                    style={{ borderRadius: "50%" }}
+                                    okText="Yes"
+                                    cancelText="No"
                                   >
-                                    X
-                                  </button>
+                                    <button
+                                      className="btn btn-danger"
+                                      style={{ borderRadius: "50%" }}
+                                    >
+                                      X
+                                    </button>
+                                  </Popconfirm>
                                 </td>
                               </tr>
                             );

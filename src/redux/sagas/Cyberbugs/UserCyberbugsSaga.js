@@ -20,9 +20,14 @@ import {
   USLOGIN,
 } from "../../constants/Cyberbugs/Cyberbugs";
 import { DISPLAY_LOADING, HIDE_LOADING } from "../../constants/LoadingConst";
-import { TOKEN, USER_LOGIN } from "../../../util/constants/settingSystem";
+import {
+  STATUS_CODE,
+  TOKEN,
+  USER_LOGIN,
+} from "../../../util/constants/settingSystem";
 import { history } from "../../../util/history";
 import { userService } from "../../../services/UserService";
+import { notifiFunction } from "../../../util/Notification/notificationCyberbugs";
 
 //Quản lý các action saga
 function* signinSaga(action) {
@@ -110,24 +115,23 @@ export function* theoDoiAddUserProject() {
 }
 
 function* removeUserProjectSaga(action) {
-  yield put({
-    type: DISPLAY_LOADING,
-  });
-  yield delay(500);
   try {
     const { data, status } = yield call(() =>
       userService.deleteUserFromProject(action.userProject)
     );
 
+    if (status === STATUS_CODE.SUCCESS) {
+      notifiFunction("success", "Delete member from project successfully !");
+    } else {
+      notifiFunction("error", "Delete member from project fail !");
+    }
     yield put({
       type: GET_LIST_PROJECT_SAGA,
     });
   } catch (err) {
     console.log(err.response.data);
+    notifiFunction("error", "Delete member from project fail !");
   }
-  yield put({
-    type: HIDE_LOADING,
-  });
 }
 
 export function* theoDoiRemoveUserProject() {
