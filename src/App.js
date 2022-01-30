@@ -66,23 +66,23 @@ function App() {
           Component={BaiTapToDoListSaga}
         />
         <HomeTemplate exact path="/demohocmodal" Component={DemoHOCModal} />
-        <CyberbugsTemplate
-          exact
-          path="/cyberbugs"
-          Component={indexCyberBugs}
-        ></CyberbugsTemplate>
+        <CyberbugsTemplate exact path="/cyberbugs" Component={indexCyberBugs} />
         <CyberbugsTemplate
           exact
           path="/createproject"
           Component={CreateProject}
-        ></CyberbugsTemplate>
+        />
         <CyberbugsTemplate
           exact
           path="/projectmanagement"
           Component={ProjectManagement}
-        ></CyberbugsTemplate>
-
-        <HomeTemplate exact path="/" Component={Home} />
+        />
+        <CyberbugsTemplate
+          exact
+          path="/projectdetail/:projectId"
+          Component={indexCyberBugs}
+        />
+        <CyberbugsTemplate exact path="/" Component={ProjectManagement} />
         <HomeTemplate exact path="*" Component={PageNotFound} />
       </Switch>
     </>

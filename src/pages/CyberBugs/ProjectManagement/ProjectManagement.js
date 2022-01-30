@@ -23,6 +23,7 @@ import {
   REMOVE_USER_PROJECT_API,
 } from "../../../redux/constants/Cyberbugs/Cyberbugs";
 import FormEditProject from "../../../components/Forms/FormEditProject/FormEditProject";
+import { NavLink } from "react-router-dom";
 
 export default function ProjectManagement(props) {
   const projectList = useSelector(
@@ -88,6 +89,9 @@ export default function ProjectManagement(props) {
       title: "Project Name",
       dataIndex: "projectName",
       key: "projectName",
+      render: (text, record, index) => {
+        return <NavLink to={`/projectdetail/${record.id}`}> {text}</NavLink>;
+      },
       sorter: (item2, item1) => {
         let projectName1 = item1.projectName?.trim().toLowerCase();
         let projectName2 = item2.projectName?.trim().toLowerCase();
