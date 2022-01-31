@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { GET_ALL_PROJECT_SAGA } from "../../../redux/constants/Cyberbugs/ProjectCyberBugsConstant";
 import { GET_ALL_TASK_TYPE_SAGA } from "../../../redux/constants/Cyberbugs/TaskTypeConstants";
 import { GET_ALL_PRIORITY_SAGA } from "../../../redux/constants/Cyberbugs/PriorityConstant";
+import { GET_USER_API } from "../../../redux/constants/Cyberbugs/Cyberbugs";
 
 const { Option } = Select;
 const children = [];
@@ -16,6 +17,13 @@ export default function FormCreateTask(props) {
   const { arrProject } = useSelector((state) => state.ProjectCyberBugsReducer);
   const { arrTaskType } = useSelector((state) => state.TaskTypeReducer);
   const { arrPriority } = useSelector((state) => state.PriorityReducer);
+  const { userSearch } = useSelector(
+    (state) => state.UserLoginCyberBugsReducer
+  );
+
+  const userOption = userSearch.map((item, index) => {
+    return { value: item.userId, label: item.name };
+  });
 
   const dispatch = useDispatch();
 
@@ -46,6 +54,7 @@ export default function FormCreateTask(props) {
     dispatch({ type: GET_ALL_PROJECT_SAGA });
     dispatch({ type: GET_ALL_TASK_TYPE_SAGA });
     dispatch({ type: GET_ALL_PRIORITY_SAGA });
+    dispatch({ type: GET_USER_API, keyWord: "" });
   }, []);
 
   return (
@@ -120,14 +129,13 @@ export default function FormCreateTask(props) {
             <Select
               mode="multiple"
               size={size}
-              options={[
-                { value: "a11", label: "b11" },
-                { value: "a12", label: "b12" },
-                { value: "a13", label: "b13" },
-              ]}
+              options={userOption}
               placeholder="Please select"
-              defaultValue={["a10", "c12"]}
+              optionFilterProp="label"
               onChange={handleChange}
+              onSelect={(value) => {
+                console.log(value);
+              }}
               style={{ width: "100%" }}
             >
               {children}
