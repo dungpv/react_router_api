@@ -1,7 +1,7 @@
 import {
   EDIT_PROJECT,
   PUT_PROJECT_DETAIL,
-} from "../constants/Cyberbugs/Cyberbugs";
+} from "../constants/Cyberbugs/ProjectCyberBugsConstant";
 
 const initialState = {
   projectEdit: {

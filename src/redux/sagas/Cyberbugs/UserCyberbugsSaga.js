@@ -12,7 +12,6 @@ import {
 import { cyberbugsService } from "../../../services/CyberbugsService";
 import {
   ADD_USER_PROJECT_API,
-  GET_LIST_PROJECT_SAGA,
   GET_USER_API,
   GET_USER_SEARCH,
   REMOVE_USER_PROJECT_API,
@@ -28,6 +27,7 @@ import {
 import { history } from "../../../util/history";
 import { userService } from "../../../services/UserService";
 import { notifiFunction } from "../../../util/Notification/notificationCyberbugs";
+import { GET_LIST_PROJECT_SAGA } from "../../constants/Cyberbugs/ProjectCyberBugsConstant";
 
 //Quản lý các action saga
 function* signinSaga(action) {

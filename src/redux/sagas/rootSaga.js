@@ -3,6 +3,8 @@ import * as ToDoListSaga from "./ToDoListSaga";
 import * as Cyberbugs from "./Cyberbugs/UserCyberbugsSaga";
 import * as ProjectCategory from "./Cyberbugs/ProjectCategorySaga";
 import * as ProjectSaga from "./Cyberbugs/ProjectSaga";
+import * as TaskTypeSaga from "./Cyberbugs/TaskTypeSaga";
+import * as PrioritySaga from "./Cyberbugs/PrioritySaga";
 
 export function* rootSaga() {
   yield all([
@@ -21,8 +23,13 @@ export function* rootSaga() {
     ProjectSaga.theoDoiUpdateProjectSaga(),
     ProjectSaga.theoDoiDeleteProjectSaga(),
     ProjectSaga.theoDoiGetProjectDetail(),
+    ProjectSaga.theoDoiGetAllProjectSaga(),
     Cyberbugs.theoDoiGetUser(),
     Cyberbugs.theoDoiAddUserProject(),
     Cyberbugs.theoDoiRemoveUserProject(),
+
+    // danh muc
+    TaskTypeSaga.theoDoiGetAllTaskTypeSaga(),
+    PrioritySaga.theoDoiGetAllPrioritySaga(),
   ]);
 }

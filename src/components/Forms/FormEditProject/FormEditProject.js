@@ -1,13 +1,13 @@
 import { Editor } from "@tinymce/tinymce-react";
 import React, { useEffect } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
-import {
-  GET_ALL_PROJECT_CATEGORY_SAGA,
-  SET_SUBMIT_EDIT_PROJECT,
-  UPDATE_PROJECT_SAGA,
-} from "../../../redux/constants/Cyberbugs/Cyberbugs";
+import { GET_ALL_PROJECT_CATEGORY_SAGA } from "../../../redux/constants/Cyberbugs/Cyberbugs";
 import { withFormik } from "formik";
 import * as Yup from "yup";
+import {
+  SET_SUBMIT_EDIT_PROJECT,
+  UPDATE_PROJECT_SAGA,
+} from "../../../redux/constants/Cyberbugs/ProjectCyberBugsConstant";
 
 function FormEditProject(props) {
   const arrProjectCategory = useSelector(
