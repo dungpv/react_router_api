@@ -45,4 +45,15 @@ export const cyberbugsService = {
       headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN) }, // JWT
     });
   },
+
+  // createTask: (taskObject) => {
+  //   return Axios({
+  //     url: `${DOMAIN_CYBERBUG}/Project/createTask`,
+  //     method: "POST",
+  //     data: taskObject,
+  //     headers: {
+  //       Authorization: "Bearer " + localStorage.getItem(TOKEN),
+  //     }, // JWT
+  //   });
+  // },
 };

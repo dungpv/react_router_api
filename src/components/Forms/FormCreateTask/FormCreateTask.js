@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { Select, Slider } from "antd";
-import { useSelector, useDispatch } from "react-redux";
+import { connect, useSelector, useDispatch } from "react-redux";
 import { GET_ALL_PROJECT_SAGA } from "../../../redux/constants/Cyberbugs/ProjectCyberBugsConstant";
 import { GET_ALL_TASK_TYPE_SAGA } from "../../../redux/constants/Cyberbugs/TaskTypeConstants";
 import { GET_ALL_PRIORITY_SAGA } from "../../../redux/constants/Cyberbugs/PriorityConstant";
 import { GET_USER_API } from "../../../redux/constants/Cyberbugs/Cyberbugs";
+import { withFormik } from "formik";
+import * as Yup from "yup";
+import { CREATE_TASK_SAGA } from "../../../redux/constants/Cyberbugs/TaskConstant";
 
 const { Option } = Select;
 const children = [];
@@ -13,7 +16,7 @@ for (let i = 10; i < 36; i++) {
   children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
 }
 
-export default function FormCreateTask(props) {
+function FormCreateTask(props) {
   const { arrProject } = useSelector((state) => state.ProjectCyberBugsReducer);
   const { arrTaskType } = useSelector((state) => state.TaskTypeReducer);
   const { arrPriority } = useSelector((state) => state.PriorityReducer);
@@ -32,9 +35,7 @@ export default function FormCreateTask(props) {
     timeTrackingSpent: 0,
     timeTrackingRemaining: 0,
   });
-  const handleSizeChange = (e) => {
-    setSize(e.target.value);
-  };
+
   const {
     values,
     touched,
@@ -46,10 +47,6 @@ export default function FormCreateTask(props) {
     setFieldValue,
   } = props;
 
-  const handleEditorChange = (content, editor) => {
-    setFieldValue("description", content);
-  };
-
   useEffect(() => {
     dispatch({ type: GET_ALL_PROJECT_SAGA });
     dispatch({ type: GET_ALL_TASK_TYPE_SAGA });
@@ -58,10 +55,14 @@ export default function FormCreateTask(props) {
   }, []);
 
   return (
-    <div className="container">
+    <form className="container" onSubmit={handleSubmit}>
       <div className="form-group">
         <p>Project</p>
-        <select name="projectId" className="form-control">
+        <select
+          name="projectId"
+          className="form-control"
+          onChange={handleChange}
+        >
           {arrProject.map((project, index) => {
             return (
               <option key={index} value={project.id}>
@@ -72,10 +73,22 @@ export default function FormCreateTask(props) {
         </select>
       </div>
       <div className="form-group">
+        <p>Task name</p>
+        <input
+          name="taskName"
+          className="form-control"
+          onChange={handleChange}
+        />
+      </div>
+      <div className="form-group">
         <div className="row">
           <div className="col-6">
             <p>Priority</p>
-            <select name="priorityId" className="form-control">
+            <select
+              name="priorityId"
+              className="form-control"
+              onChange={handleChange}
+            >
               {arrPriority.map((priority, index) => {
                 return (
                   <option key={index} value={priority.priorityId}>
@@ -87,7 +100,11 @@ export default function FormCreateTask(props) {
           </div>
           <div className="col-6">
             <p>Task type</p>
-            <select name="typeId" className="form-control">
+            <select
+              name="typeId"
+              className="form-control"
+              onChange={handleChange}
+            >
               {arrTaskType.map((taskType, index) => {
                 return (
                   <option key={index} value={taskType.id}>
@@ -99,29 +116,7 @@ export default function FormCreateTask(props) {
           </div>
         </div>
       </div>
-      <div className="form-group">
-        <p>Description</p>
-        <Editor
-          name="description"
-          // value={values.description}
-          init={{
-            selector: "textarea#myTextArea",
-            height: 500,
 
-            menubar: false,
-            plugins: [
-              "advlist autolink lists link image charmap print preview anchor",
-              "searchreplace visualblocks code fullscreen",
-              "insertdatetime media table paste code help wordcount",
-            ],
-            toolbar:
-              "undo redo | formatselect | bold italic backcolor | \
-        alignleft aligncenter alignright alignjustify | \
-        bullist numlist outdent indent | removeformat | help",
-          }}
-          onEditorChange={handleEditorChange}
-        />
-      </div>
       <div className="form-group">
         <div className="row">
           <div className="col-6">
@@ -132,7 +127,9 @@ export default function FormCreateTask(props) {
               options={userOption}
               placeholder="Please select"
               optionFilterProp="label"
-              onChange={handleChange}
+              onChange={(values) => {
+                setFieldValue("listUserAsign", values);
+              }}
               onSelect={(value) => {
                 console.log(value);
               }}
@@ -150,6 +147,7 @@ export default function FormCreateTask(props) {
                   className="form-control"
                   name="originalEstimate"
                   height="30"
+                  onChange={handleChange}
                 ></input>
               </div>
             </div>
@@ -187,6 +185,7 @@ export default function FormCreateTask(props) {
                       ...timeTracking,
                       timeTrackingSpent: e.target.value,
                     });
+                    setFieldValue("timeTrackingSpent", e.target.value);
                   }}
                 />
               </div>
@@ -204,6 +203,7 @@ export default function FormCreateTask(props) {
                       ...timeTracking,
                       timeTrackingRemaining: e.target.value,
                     });
+                    setFieldValue("timeTrackingRemaining", e.target.value);
                   }}
                 />
               </div>
@@ -211,6 +211,60 @@ export default function FormCreateTask(props) {
           </div>
         </div>
       </div>
-    </div>
+      <div className="form-group">
+        <p>Description</p>
+        <Editor
+          name="description"
+          // value={values.description}
+          init={{
+            selector: "textarea#myTextArea",
+            height: 500,
+
+            menubar: false,
+            plugins: [
+              "advlist autolink lists link image charmap print preview anchor",
+              "searchreplace visualblocks code fullscreen",
+              "insertdatetime media table paste code help wordcount",
+            ],
+            toolbar:
+              "undo redo | formatselect | bold italic backcolor | \
+        alignleft aligncenter alignright alignjustify | \
+        bullist numlist outdent indent | removeformat | help",
+          }}
+          onEditorChange={(content, editor) => {
+            setFieldValue("description", content);
+          }}
+        />
+      </div>
+      <button className="btn btn-danger" type="submit">
+        submit
+      </button>
+    </form>
   );
 }
+
+const frmCreateTask = withFormik({
+  //enableReinitialize: true,
+  mapPropsToValues: (props) => {
+    return {
+      listUserAsign: [0],
+      taskName: "",
+      description: "",
+      statusId: "",
+      originalEstimate: 0,
+      timeTrackingSpent: 0,
+      timeTrackingRemaining: 0,
+      projectId: 0,
+      typeId: 0,
+      priorityId: 0,
+    };
+  },
+  validationSchema: Yup.object().shape({}),
+  handleSubmit: (values, { props, setSubmitting }) => {
+    console.log("taskObject", values);
+    props.dispatch({ type: CREATE_TASK_SAGA, taskObject: values });
+  },
+  displayName: "Create Task Form",
+})(FormCreateTask);
+
+export default connect()(frmCreateTask);
