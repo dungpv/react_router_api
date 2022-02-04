@@ -149,7 +149,8 @@ function* getProjectDetailSaga(action) {
       projectDetail: data.content,
     });
   } catch (err) {
-    console.log(err.response.data);
+    console.log(err);
+    console.log(err.response?.data);
     history.push("/projectmanagement");
   }
 

@@ -3,7 +3,7 @@ import ContentMain from "../../../components/Cyberbugs/Main/ContentMain";
 import HeaderMain from "../../../components/Cyberbugs/Main/HeaderMain";
 import InfoMain from "../../../components/Cyberbugs/Main/InfoMain";
 import { useSelector, useDispatch } from "react-redux";
-import { GET_PROJECT_DETAIL } from "../../constants/Cyberbugs/ProjectCyberBugsConstant";
+import { GET_PROJECT_DETAIL } from "../../../redux/constants/Cyberbugs/ProjectCyberBugsConstant";
 
 export default function IndexCyberBugs(props) {
   const { projectDetail } = useSelector((state) => state.ProjectReducer);
