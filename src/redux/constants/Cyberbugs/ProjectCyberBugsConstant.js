@@ -1,4 +1,4 @@
-//------------------PROJECT ------
+//------------------PROJECT - TASK ------
 export const GET_LIST_PROJECT = "GET_LIST_PROJECT";
 export const GET_LIST_PROJECT_SAGA = "GET_LIST_PROJECT_SAGA";
 export const CREATE_PROJECT_SAGA = "CREATE_PROJECT_SAGA";
@@ -12,3 +12,4 @@ export const PUT_PROJECT_DETAIL = "PUT_PROJECT_DETAIL";
 export const OPEN_FORM_CREATE_TASK = "OPEN_FORM_CREATE_TASK";
 export const GET_ALL_PROJECT = "GET_ALL_PROJECT";
 export const GET_ALL_PROJECT_SAGA = "GET_ALL_PROJECT_SAGA";
+export const SET_SUBMIT_CREATE_TASK = "SET_SUBMIT_CREATE_TASK";

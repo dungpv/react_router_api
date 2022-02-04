@@ -2,6 +2,7 @@ import { CLOSE_DRAWER, OPEN_DRAWER } from "../constants/Cyberbugs/Cyberbugs";
 import {
   OPEN_FORM_CREATE_TASK,
   OPEN_FORM_EDIT_PROJECT,
+  SET_SUBMIT_CREATE_TASK,
   SET_SUBMIT_EDIT_PROJECT,
 } from "../constants/Cyberbugs/ProjectCyberBugsConstant";
 
@@ -34,6 +35,10 @@ export const drawerReducer = (state = initialState, action) => {
       state.visible = true;
       state.ComponentContentDrawer = action.Component;
       state.title = action.title;
+      return { ...state };
+    }
+    case SET_SUBMIT_CREATE_TASK: {
+      state.callBackSubmit = action.submitFunction;
       return { ...state };
     }
     default:

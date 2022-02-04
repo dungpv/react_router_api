@@ -17,6 +17,7 @@ import {
 import { DISPLAY_LOADING, HIDE_LOADING } from "../../constants/LoadingConst";
 import { projectService } from "../../../services/ProjectService";
 import { notifiFunction } from "../../../util/Notification/notificationCyberbugs";
+import { GET_USER_BY_PROJECT_ID_SAGA } from "../../constants/Cyberbugs/UserConstant";
 
 function* createProjectSaga(action) {
   yield put({
@@ -177,6 +178,11 @@ function* getProjectAllSaga(action) {
     yield put({
       type: GET_ALL_PROJECT,
       arrProject: data.content,
+    });
+
+    yield put({
+      type: GET_USER_BY_PROJECT_ID_SAGA,
+      idProject: data.content[0]?.id,
     });
   } catch (err) {
     console.log("404 not found !");
