@@ -38,5 +38,7 @@ export function* rootSaga() {
 
     // Task
     TaskSaga.theoDoiCreateTaskSaga(),
+    TaskSaga.theoDoiGetTaskDetailSaga(),
+    TaskSaga.theoDoiUpdateTaskStatusSaga(),
   ]);
 }
