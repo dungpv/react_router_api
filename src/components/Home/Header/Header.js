@@ -103,6 +103,12 @@ export default function Header() {
               <NavLink className="dropdown-item" to="/todolistsaga">
                 Todolist Saga
               </NavLink>
+              <NavLink className="dropdown-item" to="/dragdrop">
+                Demo Drag Drop
+              </NavLink>
+              <NavLink className="dropdown-item" to="/demodragdropdnd">
+                Drag Drop DnD
+              </NavLink>
             </div>
           </li>
         </ul>
