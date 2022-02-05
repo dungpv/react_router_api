@@ -31,6 +31,10 @@ function* createTaskSaga(action) {
 
     if (status === STATUS_CODE.SUCCESS) {
       console.log(data);
+      yield put({
+        type: GET_PROJECT_DETAIL,
+        projectId: action.taskObject.projectId,
+      });
     }
     yield put({
       type: CLOSE_DRAWER,
