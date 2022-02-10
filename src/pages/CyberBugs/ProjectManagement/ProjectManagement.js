@@ -47,7 +47,7 @@ export default function ProjectManagement(props) {
   }, []);
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    //console.log("Various parameters", pagination, filters, sorter);
     setState({
       filteredInfo: filters,
       sortedInfo: sorter,

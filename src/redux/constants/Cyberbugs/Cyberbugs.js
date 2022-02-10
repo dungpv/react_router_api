@@ -14,3 +14,6 @@ export const GET_ALL_PROJECT_CATEGORY_SAGA = "GET_ALL_PROJECT_CATEGORY_SAGA";
 //------------------DRAWER ------
 export const OPEN_DRAWER = "OPEN_DRAWER";
 export const CLOSE_DRAWER = "CLOSE_DRAWER";
+
+//------------------FORM ------
+export const OPEN_FORM = "OPEN_FORM";

@@ -78,6 +78,7 @@ export function* theoDoiGetTaskDetailSaga() {
 }
 
 function* updateTaskStatusSaga(action) {
+  //console.log(action);
   const { taskUpdateStatus } = action;
   try {
     const { data, status } = yield call(() =>

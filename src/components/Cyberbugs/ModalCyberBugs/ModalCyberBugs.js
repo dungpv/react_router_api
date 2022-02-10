@@ -13,21 +13,52 @@ import {
 import { GET_ALL_TASK_TYPE_SAGA } from "../../../redux/constants/Cyberbugs/TaskTypeConstants";
 import { Editor } from "@tinymce/tinymce-react";
 import { Select } from "antd";
+import {
+  CREATE_COMMENT_SAGA,
+  DELETE_COMMENT_SAGA,
+  GET_COMMENT_ALL_SAGA,
+  UPDATE_COMMENT_SAGA,
+} from "../../../redux/constants/Cyberbugs/CommentConstant";
+import { USER_LOGIN } from "../../../util/constants/settingSystem";
 
 const { Option } = Select;
-export default function ModalCyberBugs() {
+export default function ModalCyberBugs(props) {
   const { taskDetailModal } = useSelector((state) => state.TaskReducer);
   const { arrStatus } = useSelector((state) => state.StatusReducer);
   const { arrPriority } = useSelector((state) => state.PriorityReducer);
   const { arrTaskType } = useSelector((state) => state.TaskTypeReducer);
   const { projectDetail } = useSelector((state) => state.ProjectReducer);
 
+  //console.log("props", props);
+
+  const userLogin = JSON.parse(localStorage.getItem(USER_LOGIN));
+  //console.log("userLogin", userLogin);
+
   // editor
+
+  // description
   const [visibleEditor, setVisibleEditor] = useState(false);
   const [historyContent, setHistoryContent] = useState(
     taskDetailModal.description
   );
   const [content, setContent] = useState(taskDetailModal.description);
+
+  // comment
+  // create comment
+  const [visibleEditorCreateComment, setVisibleEditorCreateComment] =
+    useState(false);
+  const [contentCreateComment, setContentCreateComment] = useState(
+    taskDetailModal.lstComment
+  );
+
+  // edit comment
+  const [visibleEditorEditComment, setVisibleEditorEditComment] =
+    useState(false);
+  const [contentEditComment, setContentEditComment] = useState(
+    taskDetailModal.lstComment
+  );
+
+  const [idEditComment, setIdEditComment] = useState("");
 
   const dispatch = useDispatch();
 
@@ -172,6 +203,178 @@ export default function ModalCyberBugs() {
     );
   };
 
+  const renderCreateComment = () => {
+    return (
+      <div className="block-comment" style={{ display: "flex" }}>
+        <div className="avatar">
+          <img src={userLogin.avatar} alt={userLogin.avatar} />
+        </div>
+        <div className="input-comment">
+          {visibleEditorCreateComment ? (
+            <div>
+              <Editor
+                name="comment"
+                initialValue=""
+                init={{
+                  selector: "textarea#myTextArea",
+                  height: 200,
+                  menubar: false,
+                  plugins: [
+                    "advlist autolink lists link image charmap print preview anchor",
+                    "searchreplace visualblocks code fullscreen",
+                    "insertdatetime media table paste code help wordcount",
+                  ],
+                  toolbar:
+                    "undo redo | formatselect | bold italic backcolor | \
+                        alignleft aligncenter alignright alignjustify | \
+                        bullist numlist outdent indent | removeformat | help",
+                }}
+                onEditorChange={(content, editor) => {
+                  setContentCreateComment(content);
+                }}
+              />
+              <button
+                className="btn btn-primary m-2"
+                onClick={() => {
+                  dispatch({
+                    type: CREATE_COMMENT_SAGA,
+                    commentObject: {
+                      taskId: taskDetailModal.taskId,
+                      contentComment: contentCreateComment,
+                    },
+                  });
+                  setVisibleEditorCreateComment(false);
+                }}
+              >
+                Save
+              </button>
+              <button
+                className="btn btn-light m-2"
+                onClick={() => {
+                  setVisibleEditorCreateComment(false);
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          ) : (
+            <div
+              onClick={() => {
+                setVisibleEditorCreateComment(true);
+              }}
+            >
+              <input type="text" placeholder="Add a comment ..." />
+              <p>
+                <span style={{ fontWeight: 500, color: "gray" }}>Protip: </span>
+                <span>Click to comment</span>
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  const renderListComment = () => {
+    return taskDetailModal.lstComment?.map((comment, index) => {
+      const jsxComment = ReactHtmlParser(comment.commentContent);
+      return (
+        <div className="row" key={index}>
+          <div
+            className="avatar"
+            style={{ marginRight: "15px", marginLeft: "15px" }}
+          >
+            <img src={comment.avatar} alt={comment.avatar} />
+          </div>
+          <div className="">
+            <p style={{ marginBottom: 5 }}>
+              <strong>{comment.name}</strong> <span>a month ago</span>
+            </p>
+            <p style={{ marginBottom: 5 }}>
+              {visibleEditorEditComment && idEditComment === comment.id ? (
+                <div>
+                  <Editor
+                    name="comment"
+                    initialValue={comment.commentContent}
+                    init={{
+                      selector: "textarea#myTextArea",
+                      height: 200,
+                      menubar: false,
+                      plugins: [
+                        "advlist autolink lists link image charmap print preview anchor",
+                        "searchreplace visualblocks code fullscreen",
+                        "insertdatetime media table paste code help wordcount",
+                      ],
+                      toolbar:
+                        "undo redo | formatselect | bold italic backcolor | \
+                        alignleft aligncenter alignright alignjustify | \
+                        bullist numlist outdent indent | removeformat | help",
+                    }}
+                    onEditorChange={(content, editor) => {
+                      setContentEditComment(content);
+                    }}
+                  />
+                  <button
+                    className="btn btn-primary m-2"
+                    onClick={() => {
+                      dispatch({
+                        type: UPDATE_COMMENT_SAGA,
+                        id: comment.id,
+                        contentComment: contentEditComment,
+                        taskId: taskDetailModal.taskId,
+                      });
+                      setVisibleEditorEditComment(false);
+                    }}
+                  >
+                    Save
+                  </button>
+                  <button
+                    className="btn btn-light m-2"
+                    onClick={() => {
+                      setVisibleEditorEditComment(false);
+                    }}
+                  >
+                    Close
+                  </button>
+                </div>
+              ) : (
+                <div>{jsxComment}</div>
+              )}
+            </p>
+
+            {!visibleEditorEditComment || idEditComment !== comment.id ? (
+              <div>
+                <button
+                  className="btn btn-link m-1"
+                  onClick={() => {
+                    setIdEditComment(comment.id);
+                    setVisibleEditorEditComment(true);
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  className="btn btn-link m-1"
+                  onClick={() => {
+                    dispatch({
+                      type: DELETE_COMMENT_SAGA,
+                      idComment: comment.id,
+                      taskId: taskDetailModal.taskId,
+                    });
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
+      );
+    });
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -248,65 +451,11 @@ export default function ModalCyberBugs() {
                     </div>
                     <div className="comment">
                       <h6>Comment</h6>
-                      <div
-                        className="block-comment"
-                        style={{ display: "flex" }}
-                      >
-                        <div className="avatar">
-                          <img
-                            src={require("../../../assets/img/download (1).jfif")}
-                            alt="xyz"
-                          />
-                        </div>
-                        <div className="input-comment">
-                          <input type="text" placeholder="Add a comment ..." />
-                          <p>
-                            <span style={{ fontWeight: 500, color: "gray" }}>
-                              Protip:
-                            </span>
-                            <span>
-                              press
-                              <span
-                                style={{
-                                  fontWeight: "bold",
-                                  background: "#ecedf0",
-                                  color: "#b4bac6",
-                                }}
-                              >
-                                M
-                              </span>
-                              to comment
-                            </span>
-                          </p>
-                        </div>
-                      </div>
+                      {renderCreateComment()}
                       <div className="lastest-comment">
                         <div className="comment-item">
-                          <div
-                            className="display-comment"
-                            style={{ display: "flex" }}
-                          >
-                            <div className="avatar">
-                              <img
-                                src={require("../../../assets/img/download (1).jfif")}
-                                alt="xyz"
-                              />
-                            </div>
-                            <div>
-                              <p style={{ marginBottom: 5 }}>
-                                Lord Gaben <span>a month ago</span>
-                              </p>
-                              <p style={{ marginBottom: 5 }}>
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipisicing elit. Repellendus tempora ex
-                                voluptatum saepe ab officiis alias totam ad
-                                accusamus molestiae?
-                              </p>
-                              <div>
-                                <span style={{ color: "#929398" }}>Edit</span>•
-                                <span style={{ color: "#929398" }}>Delete</span>
-                              </div>
-                            </div>
+                          <div className="display-comment">
+                            {renderListComment()}
                           </div>
                         </div>
                       </div>

@@ -36,4 +36,12 @@ export class baseService {
       headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN) }, //token yêu cầu từ backend chứng minh user đã đăng nhập rồi
     });
   };
+
+  putOnlyUrl = (url) => {
+    return Axios({
+      url: `${DOMAIN_CYBERBUG}/${url}`,
+      method: "PUT",
+      headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN) }, //JWT
+    });
+  };
 }
