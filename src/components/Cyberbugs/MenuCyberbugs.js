@@ -25,7 +25,7 @@ export default function MenuCyberbugs(props) {
           </NavLink>
         </div>
         <div>
-          <i className="fa fa-cog mr-1" />
+          <i className="fa fa-tasks mr-1" />
           <NavLink
             className="text-dark"
             to="/projectmanagement"
@@ -42,6 +42,16 @@ export default function MenuCyberbugs(props) {
             activeClassName="active font-weight-bold"
           >
             Create Project
+          </NavLink>
+        </div>
+        <div>
+          <i className="fa fa-users-cog mr-1" />
+          <NavLink
+            className="text-dark"
+            to="/usermanagement"
+            activeClassName="active font-weight-bold"
+          >
+            User Management
           </NavLink>
         </div>
       </div>

@@ -34,8 +34,6 @@ export default function ModalCyberBugs(props) {
   const userLogin = JSON.parse(localStorage.getItem(USER_LOGIN));
   //console.log("userLogin", userLogin);
 
-  // editor
-
   // description
   const [visibleEditor, setVisibleEditor] = useState(false);
   const [historyContent, setHistoryContent] = useState(
@@ -50,7 +48,6 @@ export default function ModalCyberBugs(props) {
   const [contentCreateComment, setContentCreateComment] = useState(
     taskDetailModal.lstComment
   );
-
   // edit comment
   const [visibleEditorEditComment, setVisibleEditorEditComment] =
     useState(false);
@@ -82,7 +79,7 @@ export default function ModalCyberBugs(props) {
               initialValue={taskDetailModal.description}
               init={{
                 selector: "textarea#myTextArea",
-                height: 500,
+                height: 400,
                 menubar: false,
                 plugins: [
                   "advlist autolink lists link image charmap print preview anchor",
@@ -91,8 +88,8 @@ export default function ModalCyberBugs(props) {
                 ],
                 toolbar:
                   "undo redo | formatselect | bold italic backcolor | \
-                        alignleft aligncenter alignright alignjustify | \
-                        bullist numlist outdent indent | removeformat | help",
+                  alignleft aligncenter alignright alignjustify | \
+                  bullist numlist outdent indent | removeformat | help",
               }}
               onEditorChange={(content, editor) => {
                 setContent(content);
@@ -119,7 +116,7 @@ export default function ModalCyberBugs(props) {
               Save
             </button>
             <button
-              className="btn btn-primary m-2"
+              className="btn btn-light m-2"
               onClick={() => {
                 dispatch({
                   type: HANDLE_CHANGE_POST_API_SAGA,
@@ -217,7 +214,7 @@ export default function ModalCyberBugs(props) {
                 initialValue=""
                 init={{
                   selector: "textarea#myTextArea",
-                  height: 200,
+                  height: 300,
                   menubar: false,
                   plugins: [
                     "advlist autolink lists link image charmap print preview anchor",
@@ -226,8 +223,8 @@ export default function ModalCyberBugs(props) {
                   ],
                   toolbar:
                     "undo redo | formatselect | bold italic backcolor | \
-                        alignleft aligncenter alignright alignjustify | \
-                        bullist numlist outdent indent | removeformat | help",
+                    alignleft aligncenter alignright alignjustify | \
+                    bullist numlist outdent indent | removeformat | help",
                 }}
                 onEditorChange={(content, editor) => {
                   setContentCreateComment(content);
@@ -254,7 +251,7 @@ export default function ModalCyberBugs(props) {
                   setVisibleEditorCreateComment(false);
                 }}
               >
-                Cancel
+                Close
               </button>
             </div>
           ) : (
@@ -298,7 +295,7 @@ export default function ModalCyberBugs(props) {
                     initialValue={comment.commentContent}
                     init={{
                       selector: "textarea#myTextArea",
-                      height: 200,
+                      height: 300,
                       menubar: false,
                       plugins: [
                         "advlist autolink lists link image charmap print preview anchor",

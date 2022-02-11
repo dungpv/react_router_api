@@ -1,5 +1,8 @@
-import { GET_USER_SEARCH, USLOGIN } from "../constants/Cyberbugs/Cyberbugs";
-import { GET_USER_BY_PROJECT_ID } from "../constants/Cyberbugs/UserConstant";
+import { USLOGIN } from "../constants/Cyberbugs/Cyberbugs";
+import {
+  GET_USER_SEARCH,
+  GET_USER_BY_PROJECT_ID,
+} from "../constants/Cyberbugs/UserConstant";
 
 const { USER_LOGIN } = require("../../util/constants/settingSystem");
 
@@ -23,7 +26,7 @@ export const UserLoginCyberBugsReducer = (state = stateDefault, action) => {
     }
     case GET_USER_SEARCH: {
       state.userSearch = action.lstUserSearch;
-      //console.log("state", state);
+      //console.log("action", action);
       return { ...state };
     }
     case GET_USER_BY_PROJECT_ID: {

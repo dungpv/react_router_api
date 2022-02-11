@@ -10,14 +10,7 @@ import {
   select,
 } from "redux-saga/effects";
 import { cyberbugsService } from "../../../services/CyberbugsService";
-import {
-  ADD_USER_PROJECT_API,
-  GET_USER_API,
-  GET_USER_SEARCH,
-  REMOVE_USER_PROJECT_API,
-  USER_SIGNIN_API,
-  USLOGIN,
-} from "../../constants/Cyberbugs/Cyberbugs";
+import { USLOGIN } from "../../constants/Cyberbugs/Cyberbugs";
 import { DISPLAY_LOADING, HIDE_LOADING } from "../../constants/LoadingConst";
 import {
   STATUS_CODE,
@@ -29,8 +22,16 @@ import { userService } from "../../../services/UserService";
 import { notifiFunction } from "../../../util/Notification/notificationCyberbugs";
 import { GET_LIST_PROJECT_SAGA } from "../../constants/Cyberbugs/ProjectCyberBugsConstant";
 import {
+  ADD_USER_PROJECT_API,
+  GET_USER_API,
+  GET_USER_SEARCH,
+  REMOVE_USER_PROJECT_API,
+  USER_SIGNIN_API,
+  DELETE_USER_SAGA,
   GET_USER_BY_PROJECT_ID,
   GET_USER_BY_PROJECT_ID_SAGA,
+  SIGNUP_SAGA,
+  UPDATE_USER_SAGA,
 } from "../../constants/Cyberbugs/UserConstant";
 
 //Quản lý các action saga
@@ -73,11 +74,9 @@ export function* theoDoiSignin() {
 }
 
 function* getUserSaga(action) {
-  //Gọi api
+  const { keyword } = action;
   try {
-    const { data, status } = yield call(() =>
-      userService.getUser(action.keyWord)
-    );
+    const { data, status } = yield call(() => userService.getUser(keyword));
     yield put({
       type: GET_USER_SEARCH,
       lstUserSearch: data.content,
@@ -170,4 +169,67 @@ function* getUserByProjectIdSaga(action) {
 
 export function* theoDoiGetUserByProjectId() {
   yield takeLatest(GET_USER_BY_PROJECT_ID_SAGA, getUserByProjectIdSaga);
+}
+
+function* signupSaga(action) {
+  const { userObject } = action;
+  try {
+    const { data, status } = yield call(() => userService.signup(userObject));
+
+    if (status === STATUS_CODE.SUCCESS) {
+      //console.log(data);
+      notifiFunction("success", "Signup user successfully !");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export function* theoDoiSignUpSaga() {
+  yield takeLatest(SIGNUP_SAGA, signupSaga);
+}
+
+function* updateUserSaga(action) {
+  //console.log(action);
+  const { userObject } = action;
+  try {
+    const { data, status } = yield call(() => userService.editUser(userObject));
+    //console.log(data);
+    if (status === STATUS_CODE.SUCCESS) {
+      notifiFunction("success", "Edit user successfully !");
+    }
+  } catch (err) {
+    console.log(err);
+    console.log(err.response?.data);
+  }
+}
+
+export function* theoDoiUpdateUserSaga() {
+  yield takeLatest(UPDATE_USER_SAGA, updateUserSaga);
+}
+
+function* deleteUserSaga(action) {
+  yield put({
+    type: DISPLAY_LOADING,
+  });
+  yield delay(1000);
+
+  const { id } = action;
+  try {
+    const { data, status } = yield call(() => userService.deleteUser(id));
+    //console.log(data);
+    if (status === STATUS_CODE.SUCCESS) {
+      notifiFunction("success", "Delete user successfully !");
+    }
+  } catch (err) {
+    console.log(err);
+    console.log(err.response?.data);
+  }
+  yield put({
+    type: HIDE_LOADING,
+  });
+}
+
+export function* theoDoiDeleteUserSaga() {
+  yield takeLatest(DELETE_USER_SAGA, deleteUserSaga);
 }

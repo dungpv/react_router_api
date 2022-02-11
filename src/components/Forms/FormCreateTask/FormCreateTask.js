@@ -8,14 +8,13 @@ import {
 } from "../../../redux/constants/Cyberbugs/ProjectCyberBugsConstant";
 import { GET_ALL_TASK_TYPE_SAGA } from "../../../redux/constants/Cyberbugs/TaskTypeConstants";
 import { GET_ALL_PRIORITY_SAGA } from "../../../redux/constants/Cyberbugs/PriorityConstant";
-import { GET_USER_API } from "../../../redux/constants/Cyberbugs/Cyberbugs";
 import { withFormik } from "formik";
 import * as Yup from "yup";
 import { CREATE_TASK_SAGA } from "../../../redux/constants/Cyberbugs/TaskConstant";
 import { GET_ALL_STATUS_SAGA } from "../../../redux/constants/Cyberbugs/StatusConstant";
 import {
-  GET_USER_BY_PROJECT_ID,
   GET_USER_BY_PROJECT_ID_SAGA,
+  GET_USER_API,
 } from "../../../redux/constants/Cyberbugs/UserConstant";
 
 const { Option } = Select;

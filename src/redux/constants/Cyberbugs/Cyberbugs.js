@@ -1,9 +1,3 @@
-export const USER_SIGNIN_API = "USER_SIGNIN_API";
-export const GET_USER_API = "GET_USER_API";
-export const GET_USER_SEARCH = "GET_USER_SEARCH";
-export const ADD_USER_PROJECT_API = "ADD_USER_PROJECT_API";
-export const REMOVE_USER_PROJECT_API = "REMOVE_USER_PROJECT_API";
-
 //------------------login ------
 export const USLOGIN = "USLOGIN";
 

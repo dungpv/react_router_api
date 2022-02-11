@@ -27,10 +27,15 @@ export function* rootSaga() {
     ProjectSaga.theoDoiDeleteProjectSaga(),
     ProjectSaga.theoDoiGetProjectDetail(),
     ProjectSaga.theoDoiGetAllProjectSaga(),
+
+    // User Saga
     Cyberbugs.theoDoiGetUser(),
     Cyberbugs.theoDoiAddUserProject(),
     Cyberbugs.theoDoiRemoveUserProject(),
     Cyberbugs.theoDoiGetUserByProjectId(),
+    Cyberbugs.theoDoiSignUpSaga(),
+    Cyberbugs.theoDoiUpdateUserSaga(),
+    Cyberbugs.theoDoiDeleteUserSaga(),
 
     // danh muc
     TaskTypeSaga.theoDoiGetAllTaskTypeSaga(),

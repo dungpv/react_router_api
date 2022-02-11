@@ -26,6 +26,7 @@ import ProjectManagement from "./pages/CyberBugs/ProjectManagement/ProjectManage
 import DrawerCyberbugs from "./HOC/CyberbugsHOC/DrawerCyberbugs";
 import DemoDragDrop from "./pages/DemoDragDrop/DemoDragDrop";
 import DragAndDropDnD from "./pages/DragAndDropDnD/DragAndDropDnD";
+import UserManagement from "./pages/CyberBugs/UserManagement/UserManagement";
 
 function App() {
   const history = useHistory();
@@ -89,6 +90,11 @@ function App() {
           exact
           path="/projectdetail/:projectId"
           Component={indexCyberBugs}
+        />
+        <CyberbugsTemplate
+          exact
+          path="/usermanagement"
+          Component={UserManagement}
         />
         <CyberbugsTemplate exact path="/" Component={ProjectManagement} />
         <HomeTemplate exact path="*" Component={PageNotFound} />
