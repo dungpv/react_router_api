@@ -177,7 +177,10 @@ function* signupSaga(action) {
     const { data, status } = yield call(() => userService.signup(userObject));
 
     if (status === STATUS_CODE.SUCCESS) {
-      //console.log(data);
+      yield put({
+        type: GET_USER_API,
+        keyword: "",
+      });
       notifiFunction("success", "Signup user successfully !");
     }
   } catch (err) {
@@ -215,10 +218,15 @@ function* deleteUserSaga(action) {
   yield delay(1000);
 
   const { id } = action;
+  console.log(action);
   try {
     const { data, status } = yield call(() => userService.deleteUser(id));
     //console.log(data);
     if (status === STATUS_CODE.SUCCESS) {
+      yield put({
+        type: GET_USER_API,
+        keyword: "",
+      });
       notifiFunction("success", "Delete user successfully !");
     }
   } catch (err) {

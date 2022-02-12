@@ -5,10 +5,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import {
   ADD_USER_PROJECT_API,
+  DELETE_USER_SAGA,
+  EDIT_USER,
   GET_USER_API,
   GET_USER_SEARCH,
+  OPEN_FORM_CREATE_USER,
+  OPEN_FORM_EDIT_USER,
+  OPEN_FORM_USER,
   REMOVE_USER_PROJECT_API,
 } from "../../../redux/constants/Cyberbugs/UserConstant";
+import FormCreateUser from "../../../components/Forms/FormCreateEditUser/FormCreateUser";
+import FormEditUser from "../../../components/Forms/FormCreateEditUser/FormEditUser";
 
 const { Search } = Input;
 
@@ -85,13 +92,6 @@ export default function UserManagement(props) {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      render: (text, record, index) => {
-        return (
-          <NavLink key={index} to={`/projectdetail/${record.id}`}>
-            {text}
-          </NavLink>
-        );
-      },
       sorter: (item2, item1) => {
         let name1 = item1.name?.trim().toLowerCase();
         let name2 = item2.name?.trim().toLowerCase();
@@ -155,28 +155,29 @@ export default function UserManagement(props) {
               className="btn mr-2 btn-primary"
               onClick={() => {
                 const action = {
-                  // type: OPEN_FORM_EDIT_PROJECT,
-                  // title: "Edit Project",
-                  // Component: <FormEditProject></FormEditProject>,
+                  type: OPEN_FORM_EDIT_USER,
+                  Component: <FormEditUser></FormEditUser>,
+                  title: "Edit User",
+                  textButtonSubmit: "Save",
                 };
 
                 dispatch(action);
 
-                const actionEditProject = {
-                  // type: EDIT_PROJECT,
-                  // projectEditModel: record,
+                const actionEditUser = {
+                  type: EDIT_USER,
+                  userEditModel: record,
                 };
-                dispatch(actionEditProject);
+                dispatch(actionEditUser);
               }}
             >
               <FormOutlined style={{ fontSize: 17 }} />
             </button>
             <Popconfirm
-              title="Are you sure to delete this project?"
+              title="Are you sure to delete this user?"
               onConfirm={() => {
                 dispatch({
-                  // type: DELETE_PROJECT_SAGA,
-                  // idProject: record.id,
+                  type: DELETE_USER_SAGA,
+                  id: record.userId,
                 });
               }}
               okText="Yes"
@@ -199,6 +200,19 @@ export default function UserManagement(props) {
         <Button onClick={setNameSort}>Sort Name</Button>
         <Button onClick={clearFilters}>Clear filters</Button>
         <Button onClick={clearAll}>Clear filters and sorters</Button>
+        <Button
+          type="primary"
+          onClick={() => {
+            dispatch({
+              type: OPEN_FORM_CREATE_USER,
+              Component: <FormCreateUser></FormCreateUser>,
+              title: "Signup User",
+              textButtonSubmit: "Signup",
+            });
+          }}
+        >
+          Create User
+        </Button>
       </Space>
       <Search
         name="search"

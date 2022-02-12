@@ -2,6 +2,7 @@ import { USLOGIN } from "../constants/Cyberbugs/Cyberbugs";
 import {
   GET_USER_SEARCH,
   GET_USER_BY_PROJECT_ID,
+  EDIT_USER,
 } from "../constants/Cyberbugs/UserConstant";
 
 const { USER_LOGIN } = require("../../util/constants/settingSystem");
@@ -16,6 +17,13 @@ const stateDefault = {
   userLogin: usLogin,
   userSearch: [],
   arrUser: [],
+  userEdit: {
+    id: 0,
+    email: "abc@gmail.com",
+    passWord: "123456",
+    name: "user",
+    phoneNumber: "123456789",
+  },
 };
 
 export const UserLoginCyberBugsReducer = (state = stateDefault, action) => {
@@ -31,6 +39,10 @@ export const UserLoginCyberBugsReducer = (state = stateDefault, action) => {
     }
     case GET_USER_BY_PROJECT_ID: {
       return { ...state, arrUser: action.arrUser };
+    }
+    case EDIT_USER: {
+      state.userEdit = action.userEditModel;
+      return { ...state };
     }
     default:
       return { ...state };

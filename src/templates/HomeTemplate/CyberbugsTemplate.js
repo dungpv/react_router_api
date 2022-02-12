@@ -4,6 +4,7 @@ import { Route } from "react-router-dom";
 import MenuCyberbugs from "../../components/Cyberbugs/MenuCyberbugs";
 import ModalCyberBugs from "../../components/Cyberbugs/ModalCyberBugs/ModalCyberBugs";
 import SidebarCyberbugs from "../../components/Cyberbugs/SidebarCyberbugs";
+import ModalCyberbugsHOC from "../../HOC/CyberbugsHOC/ModalCyberbugsHOC";
 import "../../index.css";
 
 export const CyberbugsTemplate = (props) => {
@@ -22,6 +23,7 @@ export const CyberbugsTemplate = (props) => {
             </div>
 
             <ModalCyberBugs></ModalCyberBugs>
+            <ModalCyberbugsHOC></ModalCyberbugsHOC>
           </>
         );
       }}

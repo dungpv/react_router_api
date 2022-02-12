@@ -23,7 +23,7 @@ function FormEditProject(props) {
     setValues,
     setFieldValue,
   } = props;
-
+  console.log("value", values);
   const dispatch = useDispatch();
   //   const submitForm = (e) => {
   //     e.preventDefault();
