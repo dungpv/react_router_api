@@ -77,6 +77,7 @@ function* getUserSaga(action) {
   const { keyword } = action;
   try {
     const { data, status } = yield call(() => userService.getUser(keyword));
+    //console.log(data);
     yield put({
       type: GET_USER_SEARCH,
       lstUserSearch: data.content,

@@ -34,7 +34,7 @@ export const UserLoginCyberBugsReducer = (state = stateDefault, action) => {
     }
     case GET_USER_SEARCH: {
       state.userSearch = action.lstUserSearch;
-      //console.log("action", action);
+      console.log("action", action);
       return { ...state };
     }
     case GET_USER_BY_PROJECT_ID: {

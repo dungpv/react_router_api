@@ -241,7 +241,7 @@ export default function ProjectManagement(props) {
                           type: GET_USER_API,
                           keyWord: value,
                         });
-                      }, 300);
+                      }, 200);
                     }}
                   />
                 );
