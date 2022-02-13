@@ -6,9 +6,10 @@ import { Form, Input } from "antd";
 import {
   SET_SUBMIT_CREATE_USER,
   SIGNUP_SAGA,
+  UPDATE_USER_SAGA,
 } from "../../../redux/constants/Cyberbugs/UserConstant";
 
-function FormEditUser(props) {
+function FormCreateEditUser(props) {
   const {
     values,
     touched,
@@ -19,9 +20,6 @@ function FormEditUser(props) {
     setValues,
     setFieldValue,
   } = props;
-
-  console.log("values", values);
-
   const dispatch = useDispatch();
 
   //componentdidmount
@@ -39,17 +37,12 @@ function FormEditUser(props) {
 
   return (
     <Form
-      name="EditUser"
+      name="createEditUser"
       labelCol={{
         span: 8,
       }}
       wrapperCol={{
         span: 16,
-      }}
-      initialValues={{
-        email: values.email,
-        phone: values.phoneNumber,
-        name: values.name,
       }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
@@ -70,10 +63,15 @@ function FormEditUser(props) {
           },
         ]}
       >
-        <Input name="email" onChange={handleChange} />
+        <Input
+          name="email"
+          onChange={handleChange}
+          defaultValue={values.email}
+          value={values.email}
+        />
       </Form.Item>
       <Form.Item
-        name="password"
+        required
         label="Password"
         rules={[
           {
@@ -83,14 +81,10 @@ function FormEditUser(props) {
         ]}
         hasFeedback
       >
-        <Input.Password
-          name="passWord"
-          disabled={values.userId > 0 ? false : true}
-          onChange={handleChange}
-        />
+        <Input.Password name="passWord" onChange={handleChange} />
       </Form.Item>
       <Form.Item
-        name="phone"
+        required
         label="Phone Number"
         rules={[
           {
@@ -104,12 +98,13 @@ function FormEditUser(props) {
             width: "100%",
           }}
           name="phoneNumber"
+          value={values.phoneNumber}
           onChange={handleChange}
         />
       </Form.Item>
       <Form.Item
         label="Name"
-        name="name"
+        required
         rules={[
           {
             required: true,
@@ -117,17 +112,17 @@ function FormEditUser(props) {
           },
         ]}
       >
-        <Input name="name" onChange={handleChange} />
+        <Input name="name" onChange={handleChange} value={values.name} />
       </Form.Item>
     </Form>
   );
 }
 
-const EditUserForm = withFormik({
+const CreateEditUserForm = withFormik({
   enableReinitialize: true,
   mapPropsToValues: (props) => {
     const { userEdit } = props;
-    console.log("userEdit", userEdit);
+    //console.log("userEdit", userEdit);
     if (userEdit?.userId > 0) {
       return {
         id: userEdit?.userId,
@@ -149,16 +144,16 @@ const EditUserForm = withFormik({
   handleSubmit: (values, { props, setSubmitting }) => {
     //console.log("value", values);
     const action = {
-      //   type: SIGNUP_SAGA,
-      //   userObject: values,
+      type: values.id > 0 ? UPDATE_USER_SAGA : SIGNUP_SAGA,
+      userObject: values,
     };
     props.dispatch(action);
   },
   displayName: "Signup User",
-})(FormEditUser);
+})(FormCreateEditUser);
 
 const mapStateToProps = (state) => ({
   userEdit: state.UserLoginCyberBugsReducer.userEdit,
 });
 
-export default connect(mapStateToProps)(EditUserForm);
+export default connect(mapStateToProps)(CreateEditUserForm);

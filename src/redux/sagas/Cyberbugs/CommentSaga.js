@@ -64,7 +64,7 @@ export function* theoDoiGetAllCommentSaga() {
 }
 
 function* updateCommentSaga(action) {
-  console.log(action);
+  //console.log(action);
   const { id, contentComment, taskId } = action;
   try {
     const { data, status } = yield call(() =>

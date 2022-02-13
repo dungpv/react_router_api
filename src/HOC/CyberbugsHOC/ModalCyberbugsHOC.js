@@ -30,22 +30,24 @@ export default function ModalCyberbugsHOC(props) {
   };
   return (
     <>
-      <Modal
-        title={title}
-        visible={visible}
-        onOk={callBackSubmit}
-        onCancel={onClose}
-        footer={[
-          <Button key="back" onClick={onClose}>
-            Cancel
-          </Button>,
-          <Button key="submit" type="primary" onClick={callBackSubmit}>
-            {textButtonSubmit}
-          </Button>,
-        ]}
-      >
-        {ComponentContentModal}
-      </Modal>
+      {visible && (
+        <Modal
+          title={title}
+          visible={visible}
+          onOk={callBackSubmit}
+          onCancel={onClose}
+          footer={[
+            <Button key="back" onClick={onClose}>
+              Cancel
+            </Button>,
+            <Button key="submit" type="primary" onClick={callBackSubmit}>
+              {textButtonSubmit}
+            </Button>,
+          ]}
+        >
+          {ComponentContentModal}
+        </Modal>
+      )}
     </>
   );
 }

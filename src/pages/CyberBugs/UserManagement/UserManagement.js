@@ -14,8 +14,7 @@ import {
   OPEN_FORM_USER,
   REMOVE_USER_PROJECT_API,
 } from "../../../redux/constants/Cyberbugs/UserConstant";
-import FormCreateUser from "../../../components/Forms/FormCreateEditUser/FormCreateUser";
-import FormEditUser from "../../../components/Forms/FormCreateEditUser/FormEditUser";
+import FormCreateEditUser from "../../../components/Forms/FormCreateEditUser/FormCreateEditUser";
 
 const { Search } = Input;
 
@@ -55,29 +54,6 @@ export default function UserManagement(props) {
     });
   };
 
-  const clearFilters = () => {
-    setState({ filteredInfo: null });
-  };
-
-  const clearAll = () => {
-    setState({
-      filteredInfo: null,
-      sortedInfo: null,
-    });
-  };
-
-  const setNameSort = () => {
-    setState({
-      sortedInfo: {
-        order: "descend",
-        columnKey: "name",
-      },
-    });
-  };
-
-  let { sortedInfo, filteredInfo } = state;
-  sortedInfo = sortedInfo || {};
-  filteredInfo = filteredInfo || {};
   const columns = [
     {
       title: "Id",
@@ -156,7 +132,7 @@ export default function UserManagement(props) {
               onClick={() => {
                 const action = {
                   type: OPEN_FORM_EDIT_USER,
-                  Component: <FormEditUser></FormEditUser>,
+                  Component: <FormCreateEditUser></FormCreateEditUser>,
                   title: "Edit User",
                   textButtonSubmit: "Save",
                 };
@@ -197,18 +173,27 @@ export default function UserManagement(props) {
     <div className="container-fluid mt-5">
       <h3>User Management</h3>
       <Space style={{ marginBottom: 16 }}>
-        <Button onClick={setNameSort}>Sort Name</Button>
-        <Button onClick={clearFilters}>Clear filters</Button>
-        <Button onClick={clearAll}>Clear filters and sorters</Button>
         <Button
           type="primary"
           onClick={() => {
             dispatch({
               type: OPEN_FORM_CREATE_USER,
-              Component: <FormCreateUser></FormCreateUser>,
+              Component: <FormCreateEditUser></FormCreateEditUser>,
               title: "Signup User",
               textButtonSubmit: "Signup",
             });
+
+            // reset modal khi load create user
+            const actionEditUser = {
+              type: EDIT_USER,
+              userEditModel: {
+                email: "",
+                passWord: "",
+                name: "",
+                phoneNumber: "",
+              },
+            };
+            dispatch(actionEditUser);
           }}
         >
           Create User

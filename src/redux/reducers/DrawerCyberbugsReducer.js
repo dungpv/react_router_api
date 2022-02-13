@@ -32,7 +32,7 @@ export const drawerReducer = (state = initialState, action) => {
       return { ...state };
     }
     case OPEN_FORM_CREATE_TASK: {
-      console.log(action);
+      //console.log(action);
       state.visible = true;
       state.ComponentContentDrawer = action.Component;
       state.title = action.title;

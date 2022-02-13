@@ -10,7 +10,7 @@ import {
   select,
 } from "redux-saga/effects";
 import { cyberbugsService } from "../../../services/CyberbugsService";
-import { USLOGIN } from "../../constants/Cyberbugs/Cyberbugs";
+import { CLOSE_MODAL, USLOGIN } from "../../constants/Cyberbugs/Cyberbugs";
 import { DISPLAY_LOADING, HIDE_LOADING } from "../../constants/LoadingConst";
 import {
   STATUS_CODE,
@@ -181,6 +181,10 @@ function* signupSaga(action) {
         type: GET_USER_API,
         keyword: "",
       });
+
+      yield put({
+        type: CLOSE_MODAL,
+      });
       notifiFunction("success", "Signup user successfully !");
     }
   } catch (err) {
@@ -199,6 +203,13 @@ function* updateUserSaga(action) {
     const { data, status } = yield call(() => userService.editUser(userObject));
     //console.log(data);
     if (status === STATUS_CODE.SUCCESS) {
+      yield put({
+        type: GET_USER_API,
+        keyword: "",
+      });
+      yield put({
+        type: CLOSE_MODAL,
+      });
       notifiFunction("success", "Edit user successfully !");
     }
   } catch (err) {
@@ -218,7 +229,7 @@ function* deleteUserSaga(action) {
   yield delay(1000);
 
   const { id } = action;
-  console.log(action);
+  //console.log(action);
   try {
     const { data, status } = yield call(() => userService.deleteUser(id));
     //console.log(data);
